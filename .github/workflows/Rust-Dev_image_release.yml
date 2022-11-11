@@ -25,6 +25,6 @@ jobs:
       uses: devcontainers/ci@v0.2
       with:
         subFolder: Rust/Rust-Dev
-        imageName: ghcr.io/containers/rust-devcontainer
-        cacheFrom: ghcr.io/containers/rust-devcontainer
+        imageName: ghcr.io/dev-containers/rust-devcontainer
+        cacheFrom: ghcr.io/dev-containers/rust-devcontainer
         push: always
