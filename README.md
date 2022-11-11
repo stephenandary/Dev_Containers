@@ -1,2 +1,1 @@
-# Dev_Containers
-VSCode Dev Containers
+Repo for container that will be used in Jammin projects. 

@@ -1,0 +1,49 @@
+# Use an existing Docker image as a base
+FROM rust:alpine3.14
+# Alpine uses musl instead of glibc, that and size are deciding factors for choosing alpine base. 
+
+# Update Container
+RUN apk update 
+RUN apk add --no-cache zsh \
+    git \
+    ripgrep \
+    curl
+
+RUN sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
+#Plugins for Oh My Zsh: npm, ripgrep, rust, rustup, ssh-agent, python, git, docker
+
+#make zsh default shell and set theme
+RUN apk add sed
+RUN sed 's=/bin/ash=/bin/zsh=g' /etc/passwd
+#For spaceship theme
+#RUN git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
+#RUN ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+#RUN sed 's/robbyrussel/spaceship/g' ~/.zshrc
+#RUN sed 's/plugins=(.*)/plugins=(git npm ripgrep rust rustup ssh-agent python docker)/g'
+#RUN source ~/.zshrc
+
+# Potential other tools: AWS-Vault, AWS-CLI, GCP-CLI, Terraform-CLI,TFENV, Command Line Fuzzy Finder (Or similar) - have not decided on one yet. 
+
+
+########### USER LINES MAY BE REDUNDANT DUE TO docker-compose.yml
+# Setup User Variables to run as non-root user
+#RUN apk add --no-cache shadow
+#ARG USERNAME=stephen
+#ARG USER_UID=1000
+#ARG USER_GID=$USER_UID
+# Create the user and group
+#RUN addgroup -g $USER_GID -S su
+#RUN adduser -u ${USER_UID} -S $USERNAME 
+# [Optional] Set the default user. Omit if you want to keep the default as root.
+USER $USERNAME
+
+#Install WASM tools for Rust
+RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | zsh
+RUN apk add alpine-sdk
+RUN apk add libressl-dev
+RUN apk add pkgconfig
+RUN cargo install cargo-generate
+RUN apk add --update nodejs npm
+
+# Default command - launch zsh
+#CMD ["/bin/zsh"]

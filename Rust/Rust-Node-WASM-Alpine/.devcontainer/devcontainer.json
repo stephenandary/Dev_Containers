@@ -1,0 +1,43 @@
+{
+	"name": "Rust Dev Container",
+	"build":{
+		"dockerfile": "Dockerfile.dev"
+	},
+	// Needed for Ptrace based debugging found in Rust
+	//"runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"lldb.executable": "/usr/bin/lldb",
+		// VS Code don't watch files under ./target
+		"files.watcherExclude": {
+			"**/target/**": true
+		},
+		//not working to get a shell into alpine... there is supposed to be bash at least
+		"terminal.integrated.defaultProfile.linux": "zsh"
+		//"terminal.integrated.cwd": "/workspaces/some_directory"
+	},
+
+	// Add the IDs of vscode extensions you want installed in container when the container is created.
+	"extensions": [
+        //Native debugger based on lldb
+        "vadimcn.vscode-lldb",
+        //Resource monitor on VSCode status bar
+		"mutantdino.resourcemonitor",
+        //Rust language - can choose RSL or Rust-Analyzer server as support. 
+		"rust-lang.rust",
+        //TOML config support
+		"tamasfe.even-better-toml",
+        //Crate dependency management support
+		"serayuzgur.crates",
+        //WebAssembly Toolkit for VSCode
+        "dtsvet.vscode-wasm",
+		//Github extension
+    ],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "/bin/zsh",
+
+	// Comment out to run as root instead. DOING IN docker-compose.yml
+	// "remoteUser": "stephen"
+}

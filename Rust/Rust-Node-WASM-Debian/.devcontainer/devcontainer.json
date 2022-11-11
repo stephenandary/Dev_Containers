@@ -1,0 +1,52 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.194.3/containers/rust
+{
+	"name": "Rust",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"runArgs": [
+		"--cap-add=SYS_PTRACE",
+		"--security-opt",
+		"seccomp=unconfined"
+	],
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"lldb.executable": "/usr/bin/lldb",
+		// VS Code don't watch files under ./target
+		"files.watcherExclude": {
+			"**/target/**": true
+		},
+		"rust-analyzer.checkOnSave.command": "clippy"
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+        //Native debugger based on lldb
+        "vadimcn.vscode-lldb",
+        //Resource monitor on VSCode status bar
+		"mutantdino.resourcemonitor",
+        //Rust language - can choose RSL or Rust-Analyzer server as support. 
+		"rust-lang.rust",
+        //TOML config support
+		"tamasfe.even-better-toml",
+        //Crate dependency management support
+		"serayuzgur.crates",
+        //WebAssembly Toolkit for VSCode
+        "dtsvet.vscode-wasm",
+		//Rust Analyzer
+		// "matklad.rust-analyzer",
+		//eslint
+		"dbaeumer.vscode-eslint"
+	],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "sudo chown -R vscode /usr/local/cargo /usr/local/rustup",
+
+	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode"
+}
