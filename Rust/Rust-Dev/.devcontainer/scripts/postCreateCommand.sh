@@ -6,6 +6,13 @@ echo "Adding WASM Targets"
 rustup target add wasm32-unknown-unknown
 rustup target add wasm32-wasi
 
+echo "Installing Hombrew"
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+echo "Installing NATS CLI"
+brew tap nats-io/nats-tools
+brew install nats-io/nats-tools/nats
+
 echo "Installing Cargo-Watch"
 cargo install cargo-watch
 
